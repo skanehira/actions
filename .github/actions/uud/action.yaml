@@ -1,11 +1,6 @@
 name: update deno modules
 description: update deno modules using uud
 
-inputs:
-  github_token:
-    description: "github token"
-    required: true
-
 runs:
   using: composite
   steps:
@@ -42,14 +37,3 @@ runs:
         ${{ steps.log.outputs.content }}
 
         EOM
-    - uses: peter-evans/create-pull-request@v6
-      if: steps.diff.outputs.content != ''
-      with:
-        title: ":package: Update Deno dependencies"
-        body: |
-          ```
-          ${{ steps.log.outputs.content }}
-          ```
-        labels: automation
-        branch: automation/update-dependencies
-        token: input.github_token
