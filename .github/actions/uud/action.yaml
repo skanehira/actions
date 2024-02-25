@@ -1,4 +1,5 @@
-name: update deno modules using uud
+name: update deno modules
+description: update deno modules using uud
 
 inputs:
   github_token:
@@ -12,10 +13,11 @@ runs:
       with:
         deno-version: "1.x"
     - name: Update dependencies
+      shell: bash
       run: |
         deno run -A https://deno.land/x/udd@0.8.2/main.ts **/deps.ts
       env:
-        NO_COLOR: 1
+        NO_COLOR: "1"
     - name: Read ../output.txt
       id: log
       uses: juliangruber/read-file-action@v1
@@ -23,10 +25,12 @@ runs:
         path: ../output.txt
     - name: Diff check
       id: diff
+      shell: bash
       run: |
         echo "content=$(git diff --name-only | grep ts)" >> $GITHUB_OUTPUT
     - name: Commit changes
-      if: ${{ steps.diff.outputs.content != '' }}
+      if: steps.diff.outputs.content != ''
+      shell: bash
       run: |
         git config user.name '${{ github.actor }}'
         git config user.email '${{ github.actor }}@users.noreply.github.com'
@@ -39,7 +43,8 @@ runs:
 
         EOM
     - uses: peter-evans/create-pull-request@v3
-      if: ${{ steps.diff.outputs.content != '' }}
+      if: steps.diff.outputs.content != ''
+      shell: bash
       with:
         title: ":package: Update Deno dependencies"
         body: |
