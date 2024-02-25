@@ -16,7 +16,7 @@ jobs:
           deno-version: "1.x"
       - name: Update dependencies
         run: |
-          make deps > ../output.txt
+          deno run -A https://deno.land/x/udd@0.7.5/main.ts **/deps.ts > ../output.txt
         env:
           NO_COLOR: 1
       - name: Read ../output.txt
