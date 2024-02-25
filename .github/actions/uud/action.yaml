@@ -15,7 +15,7 @@ runs:
     - name: Update dependencies
       shell: bash
       run: |
-        deno run -A https://deno.land/x/udd@0.8.2/main.ts **/deps.ts
+        deno run -A https://deno.land/x/udd@0.8.2/main.ts **/deps.ts > ../output.txt
       env:
         NO_COLOR: "1"
     - name: Read ../output.txt
