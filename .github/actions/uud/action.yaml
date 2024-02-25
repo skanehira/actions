@@ -44,7 +44,6 @@ runs:
         EOM
     - uses: peter-evans/create-pull-request@v3
       if: steps.diff.outputs.content != ''
-      shell: bash
       with:
         title: ":package: Update Deno dependencies"
         body: |
